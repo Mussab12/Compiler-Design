@@ -1,0 +1,122 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <vector>
+
+using namespace std;
+
+string special[] = {"(", ")", ":=", ";", ",","$"};
+vector <string> mystring;
+
+string myoperator[] = {"##","#","<",">",":"};
+string mykeyword[] = {"int", "when", "then", "input","output"};
+string identifiers[]={"guess","hidden"};
+bool compare(string);
+ifstream indata;
+ofstream outdata;
+
+int main()
+{
+string str="", line="",outputfile;
+cout << "Enter name of file: "<<endl;
+cin >> str;
+cout<<"Enter the name of file where you want to store tokens"<<endl;
+cin>>outputfile;
+string temp, str1; // Enter the file name
+indata.open( str.data() ); // Open file
+outdata.open(outputfile.data() );
+cout << endl;
+int token_length=0;
+while (!indata.eof() )
+{
+indata >> line;
+if (! compare(line))
+{
+
+for (int r=0; r <line.size(); r++)
+{
+temp =line.substr(r,1);
+
+
+if( !compare(temp) )
+{
+str1 += temp;
+}
+else
+{
+mystring.push_back(str1);
+
+str1 = "";
+
+mystring.push_back(temp);
+
+}
+}
+mystring.push_back(str1);
+
+str1 = "";
+}
+else
+mystring.push_back(line);
+}
+for (int s=0; s< mystring.size(); s++)
+{
+cout << mystring[s] << endl;
+outdata<<mystring[s]<<endl;
+}
+return 0;
+}
+
+bool compare(string line)
+{
+for (int i=0; i <5; i++)
+{
+if (line == myoperator[i])
+{
+return true;
+
+}
+}
+for(int l=0;l<2;l++)
+{
+if (line==identifiers[l])
+{
+return true;
+}
+}
+for (int j=0; j <5; j++)
+{
+if (line == mykeyword[j])
+{
+
+return true;
+
+}
+}
+for (int k=0; k <6; k++)
+{
+if (line == special[k])
+{
+
+return true;
+}
+}
+return false;
+indata.close();
+outdata.close();
+}
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
